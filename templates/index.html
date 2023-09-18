@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do List App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            flex-grow: 2;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .update-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .delete-link {
+            color: #d9534f;
+            margin-left: 10px;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>To-Do App</h1>
+    <div class="container">
+        <!-- Form for adding new records -->
+        <form method="POST" action="/add">
+            <input type="text" name="data" placeholder="Enter data">
+            <button type="submit">Add</button>
+        </form>
+        <!-- Display existing records -->
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Data</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    <td>{{ record[0] }}</td> <!-- Assuming ID is the first column -->
+                    <td>{{ record[1] }}</td> <!-- Assuming data is the second column -->
+                    <td class="actions">
+                        <form class="update-form" method="POST" action="/update/{{ record[0] }}">
+                            <input type="text" name="data" placeholder="Update data">
+                            <button type="submit">Update</button>
+                        </form>
+                        <a class="delete-link" href="/delete/{{ record[0] }}">Mark as done</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
