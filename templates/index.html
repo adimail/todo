@@ -89,7 +89,7 @@
     <div class="container">
         <!-- Form for adding new records -->
         <form method="POST" action="/add">
-            <input type="text" name="data" placeholder="Enter data">
+            <input type="text" name="data" placeholder="Enter task here...">
             <button type="submit">Add</button>
         </form>
         <!-- Display existing records -->
@@ -108,7 +108,7 @@
                     <td>{{ record[1] }}</td> <!-- Assuming data is the second column -->
                     <td class="actions">
                         <form class="update-form" method="POST" action="/update/{{ record[0] }}">
-                            <input type="text" name="data" placeholder="Update data">
+                            <input type="text" name="data" placeholder="Update task here...">
                             <button type="submit">Update</button>
                         </form>
                         <a class="delete-link" href="/delete/{{ record[0] }}">Mark as done</a>
