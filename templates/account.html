@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Account</title>
+</head>
+<body>
+    <h1>Account Information</h1>
+    <p>Welcome, {{ username }}</p>
+    
+    <!-- Account update form -->
+    <form method="POST" action="/account/update-username">
+        <label for="new_username">New Username:</label>
+        <input type="text" id="new_username" name="new_username" required>
+        <button type="submit">Update Username</button>
+    </form>
+
+    <!-- Change password form -->
+    <form method="POST" action="/account/change-password">
+        <label for="new_password">New Password:</label>
+        <input type="password" id="new_password" name="new_password" required>
+        <button type="submit">Change Password</button>
+    </form>
+    
+    <!-- Link to go back to tasks page -->
+    <a href="/"><button>Go Back to Tasks</button></a>
+    
+    <!-- Display flash messages -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>

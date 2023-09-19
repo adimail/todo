@@ -4,18 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+
+    <!-- <link rel="stylesheet" href="../styles.css"> -->
+
 </head>
 <body>
     <h1>Register</h1>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul>
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
+    
     <form method="POST" action="{{ url_for('register') }}">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required><br><br>
@@ -25,6 +20,7 @@
 
         <button type="submit">Register</button>
     </form>
+    
     <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
 </body>
 </html>

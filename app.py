@@ -57,6 +57,31 @@ def create_task_table(user_id):
 # Initialize database tables
 create_user_table()
 
+@app.route('/account', methods=['GET', 'POST'])
+def account():
+    if 'user_id' in session:
+        user_id = session['user_id']
+        
+        if request.method == 'POST':
+            new_username = request.form['new_username']
+            connection, cursor = connect_db()
+            cursor.execute('UPDATE users SET username = %s WHERE id = %s;', (new_username, user_id))
+            connection.commit()
+            cursor.close()
+            connection.close()
+            
+            flash('Account information updated successfully', 'success')
+        
+        connection, cursor = connect_db()
+        cursor.execute('SELECT username FROM users WHERE id = %s;', (user_id,))
+        user_info = cursor.fetchone()
+        cursor.close()
+        connection.close()
+        
+        return render_template('account.html', username=user_info[0])
+    
+    return redirect(url_for('login'))
+
 @app.route('/')
 def index():
     if 'user_id' in session:
@@ -65,10 +90,19 @@ def index():
         connection, cursor = connect_db()
         cursor.execute('SELECT * FROM user_{}_tasks;'.format(user_id))
         records = cursor.fetchall()
+        
+        # Fetch the username of the logged-in user
+        cursor.execute('SELECT username FROM users WHERE id = %s;', (user_id,))
+        user_info = cursor.fetchone()
+        
         cursor.close()
         connection.close()
-        return render_template('index.html', records=records)
+        
+        # Pass the username to the template
+        return render_template('index.html', records=records, username=user_info[0])
+    
     return redirect(url_for('login'))
+
 
 @app.route('/add', methods=['POST'])
 def add_record():
